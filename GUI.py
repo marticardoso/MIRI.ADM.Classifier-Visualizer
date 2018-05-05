@@ -15,7 +15,7 @@ class GUI():
         root.geometry("800x500")
 
         canvasFrame = Tkinter.Frame(root, highlightbackground="black", highlightcolor="red", highlightthickness=1, width=500, height=500, bd= 0)
-
+ 
         canvasFrame.pack(side = Tkinter.RIGHT, fill=Tkinter.NONE)
         self.canvas = MyCanvas(canvasFrame,400,400)
         
