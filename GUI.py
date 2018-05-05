@@ -6,7 +6,7 @@ from Inputs import *
 class GUI():
 
     canvas = None
-    def __init__(self, width, height):
+    def __init__(self):
         # create the root window
         root = Tkinter.Tk()
 
