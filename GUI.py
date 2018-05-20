@@ -8,9 +8,13 @@ from ResultsLayer import *
 class GUI():
 
     canvas = None
+<<<<<<< HEAD
     classifier = "knn"
     classifiers = ["knn", "MLP", "Naive Bayes", "Decision tree", "AdaBoost"]
     def __init__(self, width, height):
+=======
+    def __init__(self):
+>>>>>>> edec6b514b1868040528c538e004c16266687fe4
         # create the root window
         root = Tkinter.Tk()
 
