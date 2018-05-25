@@ -10,6 +10,3 @@ def createModel(parameters, trainData, trainLabel):
     knn = KNeighborsClassifier(n_neighbors=k)
     knn.fit(trainData, trainLabel)
     return knn
-
-def predict(model, testData):
-    return model.predict(testData)

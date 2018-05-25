@@ -2,9 +2,12 @@ import Tkinter
 import tkMessageBox
 import random
 from Grid import *
+
+# Canvas of the windows (2D plane) 
 class MyCanvas():
 
-    def __init__(self, frame, width, height):
+    def __init__(self, frame, currentValues, width, height):
+        self.currentValues = currentValues
         self.width = width
         self.height = height
         self.canvas = Tkinter.Canvas(frame, width=width, height=height)
@@ -12,62 +15,49 @@ class MyCanvas():
         self.canvas.bind("<Button-3>", self.rightclickcallback)
         self.canvas.pack()
         self.grid = Grid(50,50, width, height)
-        self.radius = 3
-        self.points = []
-        self.trainTestRatio = 2.0/3.0
-        self.nPointsPerClick = 10
-        self.unifDistMargin = 50
-        self.normalSd = 20
-        self.k_knn = 1
-        self.isNormalDistribution = True
+        
 
 
     def rightclickcallback(self, event):
-        if(self.isNormalDistribution):
+        if(self.currentValues.isNormalDistribution):
             self.addNormalDistPoints(event.x,event.y,'red')
         else:
             self.addUniformPoints(event.x,event.y,'red')
 
     def leftclickcallback(self,event):
-        if(self.isNormalDistribution):
+        if(self.currentValues.isNormalDistribution):
             self.addNormalDistPoints(event.x,event.y,'blue')
         else:
             self.addUniformPoints(event.x,event.y,'blue')
 
     def splitTrainTest(self):
-        
-        for point in self.points:
+        for point in self.currentValues.points:
             point[3] = False
-        testSample = sorted(random.sample(xrange(len(self.points)), int((1-self.trainTestRatio)*len(self.points))))
+        testSample = sorted(random.sample(xrange(len(self.currentValues.points)), int((1-self.currentValues.trainTestRatio)*len(self.currentValues.points))))
         for p in testSample:
-            self.points[p][3] = True
+            self.currentValues.points[p][3] = True
         self.render()
     
     def clear(self):
-        self.points = []
+        self.currentValues.points = []
         self.canvas.delete("all")
 
     def render(self):
         self.canvas.delete("all")
         self.renderGrid()
-        for point in self.points:
+        for point in self.currentValues.points:
             self.renderPoint(point)
         
 
     def renderPoint(self, point):
-        x1, y1 = (point[0] - self.radius), (point[1] - self.radius)
-        x2, y2 = (point[0] + self.radius), (point[1] + self.radius)
+        x1, y1 = (point[0] - self.currentValues.radius), (point[1] - self.currentValues.radius)
+        x2, y2 = (point[0] + self.currentValues.radius), (point[1] + self.currentValues.radius)
         if(point[3]):
             self.canvas.create_oval(x1, y1, x2, y2, width = 1, outline = point[2])
         else:
             self.canvas.create_oval(x1, y1, x2, y2, width = 0, fill = point[2])
 
-    def setRadius(self, radius):
-        self.radius = radius
-        self.render()
-
-    def setTrainTestRatio(self, ratio):
-        self.trainTestRatio = ratio
+    
             
     def renderGrid(self):
         for i in range(len(self.grid.coordinates)):
@@ -85,20 +75,20 @@ class MyCanvas():
             self.canvas.create_rectangle(x1, y1, x2, y2, fill=colorBg,width = 0)
     
     def addUniformPoints(self, x, y, color):
-        xMin, xMax = max(1,x-self.unifDistMargin), min(self.width,x+self.unifDistMargin)
-        yMin, yMax = max(1,y-self.unifDistMargin), min(self.height,y+self.unifDistMargin)
-        for _ in range(self.nPointsPerClick):
+        xMin, xMax = max(1,x-self.currentValues.unifDistMargin), min(self.width,x+self.currentValues.unifDistMargin)
+        yMin, yMax = max(1,y-self.currentValues.unifDistMargin), min(self.height,y+self.currentValues.unifDistMargin)
+        for _ in range(self.currentValues.nPointsPerClick):
             x1 = random.randint(xMin, xMax)
             y1 = random.randint(yMin, yMax)
             newPoint = [x1, y1,color, False]
-            self.points.append(newPoint)
+            self.currentValues.points.append(newPoint)
             self.renderPoint(newPoint)
 
     def addNormalDistPoints(self, x, y, color):
-        for _ in range(self.nPointsPerClick):
-            x1 = random.normalvariate(x, self.normalSd)
-            y1 = random.normalvariate(y, self.normalSd)
+        for _ in range(self.currentValues.nPointsPerClick):
+            x1 = random.normalvariate(x, self.currentValues.normalSd)
+            y1 = random.normalvariate(y, self.currentValues.normalSd)
             newPoint = [x1, y1,color, False]
-            self.points.append(newPoint)
+            self.currentValues.points.append(newPoint)
             self.renderPoint(newPoint)
 

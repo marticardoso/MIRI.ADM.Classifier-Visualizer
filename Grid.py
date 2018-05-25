@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.utils.extmath import cartesian
 
+# Grid stores the points on the grid to classify
 class Grid:
     def __init__(self, width, height, canvasWidth, canvasHeight):
         self.width = width

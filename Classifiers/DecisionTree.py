@@ -6,6 +6,3 @@ def createModel(parameters, trainData, trainLabel):
     model = DecisionTreeClassifier(max_depth=max_depth)
     model.fit(trainData, trainLabel)
     return model
-
-def predict(model, testData):
-    return model.predict(testData)
