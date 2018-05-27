@@ -1,5 +1,5 @@
-# MIRI.ADM.Essay3
+# MIRI.ADM.Essay4
 MIRI - ADM 
 
-## Essay 3 : 2D Tool for Data Mining Algorihtms
+## Essay 4 : 2D Tool for Data Mining Algorihtms (Like LocBoost applet)
  
